@@ -86,7 +86,7 @@ router.post('/:id', (req, res, next) => {
 
    
   // get a reference to the id of the game to edit
-  let id = mongoose.Types.ObjectId.createFromHexString(req.params.id);
+  let id = req.params.id;
 
   // create a new games object to hold the changes
   let books = new book({
@@ -94,8 +94,7 @@ router.post('/:id', (req, res, next) => {
     "title": req.body.title,
       "price": req.body.price,
       "author": req.body.author,
-      "genre": req.body.genre,
-      "description": req.body.description
+      "genre": req.body.genre
   });
 
   book.update({ _id: id}, books, (err) => {
