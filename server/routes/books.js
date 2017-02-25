@@ -3,7 +3,7 @@
 Filename:books.ejs
 Authorname:Vedank Patel
 websitename:https://comp308w2017midter300860092.herokuapp.com/
-File Description:Index Page
+File Description:Routing and CRUP operations processing logic
 -->
 */
 
@@ -86,7 +86,7 @@ router.post('/:id', (req, res, next) => {
 
    
   // get a reference to the id of the game to edit
-  let id = req.params.id;
+  let id = mongoose.Types.ObjectId.createFromHexString(req.params.id);
 
   // create a new games object to hold the changes
   let books = new book({
