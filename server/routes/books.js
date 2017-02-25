@@ -1,4 +1,12 @@
 // modules required for routing
+/*<!
+Filename:books.ejs
+Authorname:Vedank Patel
+websitename:https://comp308w2017midter300860092.herokuapp.com/
+File Description:Index Page
+-->
+*/
+
 let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
@@ -52,7 +60,7 @@ router.post('/add', (req, res, next) => {
 // GET the Book Details page in order to edit an existing Book
 router.get('/:id', (req, res, next) => {
 
-     let id = req.params.id;
+     let id = mongoose.Types.ObjectId.createFromHexString(req.params.id);
 
   // find the game to edit by it's id in the games collection
   book.findById(id, (err, books) => {
@@ -65,7 +73,7 @@ router.get('/:id', (req, res, next) => {
       // show the edit view
       res.render('books/details', {
         title: 'Book Details',
-        books: 'books'
+        books: books
       });
 
     }
