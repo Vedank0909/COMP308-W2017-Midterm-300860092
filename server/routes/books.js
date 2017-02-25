@@ -24,47 +24,104 @@ router.get('/', (req, res, next) => {
 });
 
 //  GET the Book Details page in order to add a new Book
-router.get('/add', (req, res, next) => {
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
-
-});
+    router.get('/add', (req, res, next) => {
+    res.render('books/details', {
+      title: 'Add a new book',
+      books: ''
+    });
+});    
 
 // POST process the Book Details page and create a new Book - CREATE
 router.post('/add', (req, res, next) => {
-
-    /*****************
-     * ADD CODE HERE *
-     *****************/
-
+    book.create({
+      "Title": req.body.title,
+      "Price": req.body.price,
+      "Author": req.body.author,
+      "Genre": req.body.genre,
+      "Description": req.body.description
+    }, (err, books) => {
+      if(err) {
+        console.log(err);
+        res.end(err);
+      } else {
+        res.redirect('/books');
+      }
+    });
 });
-
 // GET the Book Details page in order to edit an existing Book
 router.get('/:id', (req, res, next) => {
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+     let id = req.params.id;
+
+  // find the game to edit by it's id in the games collection
+  book.findById(id, (err, books) => {
+
+    if (err) {
+      console.error(err);
+      res.end(error);
+    }
+    else {
+      // show the edit view
+      res.render('books/details', {
+        title: 'Book Details',
+        books: 'books'
+      });
+
+    }
+
+  });
 });
 
 // POST - process the information passed from the details form and update the document
 router.post('/:id', (req, res, next) => {
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+   
+  // get a reference to the id of the game to edit
+  let id = req.params.id;
+
+  // create a new games object to hold the changes
+  let books = new book({
+    "_id": id,
+    "title": req.body.title,
+      "price": req.body.price,
+      "author": req.body.author,
+      "genre": req.body.genre,
+      "description": req.body.description
+  });
+
+  book.update({ _id: id}, books, (err) => {
+    if(err) {
+      console.log(err);
+      res.end(error);
+    }
+    else {
+      // refresh the games list
+      res.redirect('/books');
+    }
+  });
+
 
 });
 
 // GET - process the delete by user id
 router.get('/delete/:id', (req, res, next) => {
 
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+  // get a reference to the id of the game to edit
+  let id = req.params.id;
+
+  book.remove({_id: id}, (err) => {
+    if(err) {
+      console.log(err);
+      res.end(err);
+    }
+    else {
+      res.redirect('/books');
+    }
+  });
+
 });
+
 
 
 module.exports = router;
